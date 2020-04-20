@@ -1016,7 +1016,7 @@ const PDFViewerApplication = {
     pdfDocument.getDownloadInfo().then(() => {
       this.downloadComplete = true;
       this.loadingBar.hide();
-
+	  this.ka_autoShowMiddleToolbar();
       firstPagePromise.then(() => {
         this.eventBus.dispatch("documentloaded", { source: this });
       });
@@ -1729,6 +1729,15 @@ const PDFViewerApplication = {
     _boundEvents.windowBeforePrint = null;
     _boundEvents.windowAfterPrint = null;
   },
+  
+  ka_autoShowMiddleToolbar()
+  {
+	var panelElement = document.getElementById('toolbarViewerMiddle');
+    panelElement.classList.remove('toolbarHidden')
+	setTimeout(function(){
+    panelElement.classList.add('toolbarInitialHidden')},300);
+  }
+
 };
 
 let validateFileURL;
