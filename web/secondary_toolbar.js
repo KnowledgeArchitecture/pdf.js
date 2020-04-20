@@ -60,23 +60,23 @@ class SecondaryToolbar {
     this.toggleButton = options.toggleButton;
     this.toolbarButtonContainer = options.toolbarButtonContainer;
     this.buttons = [
-      {
+      /*{
         element: options.presentationModeButton,
         eventName: "presentationmode",
         close: true,
-      },
+      },*/
       { element: options.openFileButton, eventName: "openfile", close: true },
       { element: options.printButton, eventName: "print", close: true },
-      { element: options.downloadButton, eventName: "download", close: true },
+      /*{ element: options.downloadButton, eventName: "download", close: true },
       { element: options.viewBookmarkButton, eventName: null, close: true },
       { element: options.firstPageButton, eventName: "firstpage", close: true },
-      { element: options.lastPageButton, eventName: "lastpage", close: true },
+      { element: options.lastPageButton, eventName: "lastpage", close: true },*/
       {
         element: options.pageRotateCwButton,
         eventName: "rotatecw",
         close: false,
       },
-      {
+      /*{
         element: options.pageRotateCcwButton,
         eventName: "rotateccw",
         close: false,
@@ -133,7 +133,7 @@ class SecondaryToolbar {
         element: options.documentPropertiesButton,
         eventName: "documentproperties",
         close: true,
-      },
+      },*/
     ];
     this.items = {
       firstPage: options.firstPageButton,
@@ -154,9 +154,9 @@ class SecondaryToolbar {
     // Bind the event listeners for click, cursor tool, and scroll/spread mode
     // actions.
     this._bindClickListeners();
-    this._bindCursorToolsListener(options);
-    this._bindScrollModeListener(options);
-    this._bindSpreadModeListener(options);
+    //this._bindCursorToolsListener(options);
+    //this._bindScrollModeListener(options);
+    //this._bindSpreadModeListener(options);
 
     // Bind the event listener for adjusting the 'max-height' of the toolbar.
     this.eventBus._on("resize", this._setMaxHeight.bind(this));
@@ -205,10 +205,10 @@ class SecondaryToolbar {
   }
 
   _updateUIState() {
-    this.items.firstPage.disabled = this.pageNumber <= 1;
-    this.items.lastPage.disabled = this.pageNumber >= this.pagesCount;
+    //this.items.firstPage.disabled = this.pageNumber <= 1;
+    //this.items.lastPage.disabled = this.pageNumber >= this.pagesCount;
     this.items.pageRotateCw.disabled = this.pagesCount === 0;
-    this.items.pageRotateCcw.disabled = this.pagesCount === 0;
+    //this.items.pageRotateCcw.disabled = this.pagesCount === 0;
   }
 
   _bindClickListeners() {

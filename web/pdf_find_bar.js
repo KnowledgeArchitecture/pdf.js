@@ -31,9 +31,9 @@ class PDFFindBar {
     this.bar = options.bar || null;
     this.toggleButton = options.toggleButton || null;
     this.findField = options.findField || null;
-    this.highlightAll = options.highlightAllCheckbox || null;
-    this.caseSensitive = options.caseSensitiveCheckbox || null;
-    this.entireWord = options.entireWordCheckbox || null;
+    this.highlightAll = true;//options.highlightAllCheckbox || true;
+    this.caseSensitive = false;//options.caseSensitiveCheckbox || false;
+    this.entireWord = false;//options.entireWordCheckbox || false;
     this.findMsg = options.findMsg || null;
     this.findResultsCount = options.findResultsCount || null;
     this.findPreviousButton = options.findPreviousButton || null;
@@ -71,7 +71,7 @@ class PDFFindBar {
       this.dispatchEvent("again", false);
     });
 
-    this.highlightAll.addEventListener("click", () => {
+    /*this.highlightAll.addEventListener("click", () => {
       this.dispatchEvent("highlightallchange");
     });
 
@@ -81,7 +81,7 @@ class PDFFindBar {
 
     this.entireWord.addEventListener("click", () => {
       this.dispatchEvent("entirewordchange");
-    });
+    });*/
 
     this.eventBus._on("resize", this._adjustWidth.bind(this));
   }
@@ -96,9 +96,9 @@ class PDFFindBar {
       type,
       query: this.findField.value,
       phraseSearch: true,
-      caseSensitive: this.caseSensitive.checked,
-      entireWord: this.entireWord.checked,
-      highlightAll: this.highlightAll.checked,
+      //caseSensitive: this.caseSensitive.checked,
+      //entireWord: this.entireWord.checked,
+      //highlightAll: this.highlightAll.checked,
       findPrevious: findPrev,
     });
   }
@@ -166,7 +166,7 @@ class PDFFindBar {
             {
               limit,
             },
-            "More than {{limit}} matches"
+            "> {{limit}}"
           );
         } else {
           matchesCountMsg = this.l10n.get(
@@ -187,7 +187,7 @@ class PDFFindBar {
               current,
               total,
             },
-            "{{current}} of {{total}} matches"
+            "{{current}} of {{total}}"
           );
         } else {
           matchesCountMsg = this.l10n.get(
@@ -196,7 +196,7 @@ class PDFFindBar {
               current,
               total,
             },
-            "{{current}} of {{total}} match" + (total !== 1 ? "es" : "")
+            "{{current}} of {{total}}" + (total !== 1 ? "" : "")
           );
         }
       }

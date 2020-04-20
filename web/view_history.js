@@ -56,7 +56,7 @@ class ViewHistory {
   }
 
   async _writeToStorage() {
-    const databaseStr = JSON.stringify(this.database);
+    return; //const databaseStr = JSON.stringify(this.database);
 
     if (typeof PDFJSDev !== "undefined" && PDFJSDev.test("MOZCENTRAL")) {
       sessionStorage.setItem("pdfjs.history", databaseStr);
@@ -66,7 +66,7 @@ class ViewHistory {
   }
 
   async _readFromStorage() {
-    if (typeof PDFJSDev !== "undefined" && PDFJSDev.test("MOZCENTRAL")) {
+    return null; if (typeof PDFJSDev !== "undefined" && PDFJSDev.test("MOZCENTRAL")) {
       return sessionStorage.getItem("pdfjs.history");
     }
     return localStorage.getItem("pdfjs.history");

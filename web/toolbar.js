@@ -67,8 +67,8 @@ class Toolbar {
       { element: options.next, eventName: "nextpage" },
       { element: options.zoomIn, eventName: "zoomin" },
       { element: options.zoomOut, eventName: "zoomout" },
-      { element: options.openFile, eventName: "openfile" },
-      { element: options.print, eventName: "print" },
+      //{ element: options.openFile, eventName: "openfile" },
+      //{ element: options.print, eventName: "print" },
       {
         element: options.presentationModeButton,
         eventName: "presentationmode",
@@ -179,7 +179,7 @@ class Toolbar {
       } else {
         items.pageNumber.type = "number";
         this.l10n
-          .get("of_pages", { pagesCount }, "of {{pagesCount}}")
+          .get("of_pages", { pagesCount }, "/ {{pagesCount}}")
           .then(msg => {
             items.numPages.textContent = msg;
           });
@@ -193,7 +193,7 @@ class Toolbar {
         .get(
           "page_of_pages",
           { pageNumber, pagesCount },
-          "({{pageNumber}} of {{pagesCount}})"
+          "({{pageNumber}} / {{pagesCount}})"
         )
         .then(msg => {
           items.numPages.textContent = msg;

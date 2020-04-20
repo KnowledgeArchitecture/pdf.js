@@ -105,6 +105,7 @@ function getViewerConfiguration() {
       spreadOddButton: document.getElementById("spreadOdd"),
       spreadEvenButton: document.getElementById("spreadEven"),
       documentPropertiesButton: document.getElementById("documentProperties"),
+	  copyLinkButton: document.getElementById("secondaryCopyLink")
     },
     fullscreen: {
       contextFirstPage: document.getElementById("contextFirstPage"),
@@ -112,7 +113,7 @@ function getViewerConfiguration() {
       contextPageRotateCw: document.getElementById("contextPageRotateCw"),
       contextPageRotateCcw: document.getElementById("contextPageRotateCcw"),
     },
-    sidebar: {
+    /*sidebar: {
       // Divs (and sidebar button)
       outerContainer: document.getElementById("outerContainer"),
       viewerContainer: document.getElementById("viewerContainer"),
@@ -129,14 +130,14 @@ function getViewerConfiguration() {
     sidebarResizer: {
       outerContainer: document.getElementById("outerContainer"),
       resizer: document.getElementById("sidebarResizer"),
-    },
+    },*/
     findBar: {
       bar: document.getElementById("findbar"),
       toggleButton: document.getElementById("viewFind"),
       findField: document.getElementById("findInput"),
-      highlightAllCheckbox: document.getElementById("findHighlightAll"),
-      caseSensitiveCheckbox: document.getElementById("findMatchCase"),
-      entireWordCheckbox: document.getElementById("findEntireWord"),
+      //highlightAllCheckbox: document.getElementById("findHighlightAll"),
+      //caseSensitiveCheckbox: document.getElementById("findMatchCase"),
+      //entireWordCheckbox: document.getElementById("findEntireWord"),
       findMsg: document.getElementById("findMsg"),
       findResultsCount: document.getElementById("findResultsCount"),
       findPreviousButton: document.getElementById("findPrevious"),
