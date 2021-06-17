@@ -2337,17 +2337,18 @@ function webViewerUpdateFindMatchesCount({ matchesCount }) {
 
 function webViewerCopyLink() {
 	var input = document.getElementById("clipboardHolder")
-	console.log(window.parent.document.location.href);
+	// console.log(window.parent.document.location.href);
 	
 	input.value=window.parent.document.location.href;
-	console.log(input.value)
+	// console.log(input.value)
 	input.select();
     input.setSelectionRange(0, 99999);
     document.execCommand("copy");
 
-	document.getElementById("linkCopiedAlert").classList.remove("transparent");
-	setTimeout(()=>{document.getElementById("linkCopiedAlert").classList.add("transparent")},3000);
-	console.log("Copy link!")
+	// document.getElementById("linkCopiedAlert").classList.remove("transparent");
+	// setTimeout(()=>{document.getElementById("linkCopiedAlert").classList.add("transparent")},3000);
+	// console.log("Copy link!")
+	window.top.postMessage('linkCopied', '*');
 }
 
 function webViewerUpdateFindControlState({ state, previous, matchesCount }) {
