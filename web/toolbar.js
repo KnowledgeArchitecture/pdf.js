@@ -133,6 +133,8 @@ class Toolbar {
       element.addEventListener("click", evt => {
         if (eventName !== null) {
           this.eventBus.dispatch(eventName, { source: this });
+		  evt.stopPropagation();
+          evt.preventDefault();
         }
       });
     }
@@ -179,7 +181,7 @@ class Toolbar {
       } else {
         items.pageNumber.type = "number";
         this.l10n
-          .get("of_pages", { pagesCount }, "/ {{pagesCount}}")
+          .get("of_pages", { pagesCount }, "{{pagesCount}}")
           .then(msg => {
             items.numPages.textContent = msg;
           });
@@ -209,6 +211,7 @@ class Toolbar {
     items.zoomIn.disabled = pageScale >= MAX_SCALE;
 
     const customScale = Math.round(pageScale * 10000) / 100;
+	//console.log("Custom scale: " + customScale)
     this.l10n
       .get("page_scale_percent", { scale: customScale }, "{{scale}}%")
       .then(msg => {

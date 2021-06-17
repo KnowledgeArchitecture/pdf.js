@@ -67,15 +67,19 @@ class SecondaryToolbar {
       },*/
       { element: options.openFileButton, eventName: "openfile", close: true },
       { element: options.printButton, eventName: "print", close: true },
-      /*{ element: options.downloadButton, eventName: "download", close: true },
-      { element: options.viewBookmarkButton, eventName: null, close: true },
+      { element: options.downloadButton, eventName: "download", close: true },
+      /*{ element: options.viewBookmarkButton, eventName: null, close: true },
       { element: options.firstPageButton, eventName: "firstpage", close: true },
       { element: options.lastPageButton, eventName: "lastpage", close: true },*/
+      { element: options.copyLinkButton, eventName: "copylink", close: true },
       {
         element: options.pageRotateCwButton,
         eventName: "rotatecw",
         close: false,
       },
+      { element: options.viewLibraryButton, eventName: "viewlibray", close: true },
+      { element: options.docDetailsButton, eventName: "docdetails", close: true },
+
       /*{
         element: options.pageRotateCcwButton,
         eventName: "rotateccw",

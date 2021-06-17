@@ -91,6 +91,8 @@ function getViewerConfiguration() {
       openFileButton: document.getElementById("secondaryOpenFile"),
       printButton: document.getElementById("secondaryPrint"),
       downloadButton: document.getElementById("secondaryDownload"),
+      viewLibraryButton: document.getElementById("secondaryViewLibrary"),
+      docDetailsButton: document.getElementById("secondaryDocDetails"),
       viewBookmarkButton: document.getElementById("secondaryViewBookmark"),
       firstPageButton: document.getElementById("firstPage"),
       lastPageButton: document.getElementById("lastPage"),
@@ -142,6 +144,7 @@ function getViewerConfiguration() {
       findResultsCount: document.getElementById("findResultsCount"),
       findPreviousButton: document.getElementById("findPrevious"),
       findNextButton: document.getElementById("findNext"),
+	  closeButton: document.getElementById("searchBoxCloseButton")
     },
     passwordOverlay: {
       overlayName: "passwordOverlay",
@@ -185,6 +188,44 @@ function getViewerConfiguration() {
     debuggerScriptPath: "./debugger.js",
   };
 }
+function getDocIcon (documentType) {
+    switch (documentType) {
+        case 'dwf':
+        case 'dwg':
+        case 'dwl':
+        case 'dxf':
+            return 'Autocad';
+        case 'xls':
+        case 'xlsx':
+            return 'Excel';
+        case 'ai':
+            return 'Illustrator';
+        case 'indd':
+        case 'indl':
+        case 'indt':
+        case 'indb':
+            return 'InDesign';
+        case 'pdf':
+            return 'PDF';
+        case 'psd':
+        case 'psb':
+            return 'Photoshop';
+        case 'ppt':
+        case 'pptx':
+            return 'PPT';
+        case 'rvt':
+        case 'rfa':
+        case 'rte':
+        case 'rft':
+            return 'Revit';
+        case 'doc':
+            return 'Word';
+        case 'docx':
+            return 'Word';
+        default:
+            return 'Placeholder';
+    }
+}
 
 function webViewerLoad() {
   const config = getViewerConfiguration();
@@ -218,6 +259,39 @@ function webViewerLoad() {
 
     pdfjsWebApp.PDFViewerApplication.run(config);
   }
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const documentTitle = urlParams.get('title');
+  const documentType = urlParams.get('filetype');
+  const libraryID = urlParams.get('libraryID');
+  const imgRoot = 'https://kamedia3.knowledge-architecture.com/images/';
+  var fileparam = urlParams.get('file');
+  if (fileparam)
+  {
+	const documentID = fileparam.split('/')[3];
+	document.getElementById('download').setAttribute('docid',documentID)
+  }
+
+  if (libraryID==undefined || libraryID<1)
+    document.getElementById('secondaryViewLibrary').classList.add("hidden");
+
+  document.getElementById('currentFileName').innerHTML = documentTitle;
+
+  if (documentType=='docx' || documentType=='pdf')
+    document.getElementById('currentFileIcon').innerHTML = '<img src="images/ka_docx.svg"/>';
+  else if (documentType=="pptx" || documentType=="ppt")
+    document.getElementById('currentFileIcon').innerHTML = '<img src="images/ka_pptx.svg"/>';
+
+    document.getElementById('currentFileIcon').innerHTML = '<img src="' + imgRoot + "docs/" + getDocIcon(documentType) + '.svg"/>';
+
+  var toolbarMiddle = document.getElementById("toolbarViewerMiddle")
+
+  document.addEventListener("mousemove", throttle(mouseMoveEventHandler, 300));
+  toolbarMiddle.addEventListener("mouseenter", ()=>{mouseIsOverToolbar=true; clearTimeout(toolbarRehider)});
+  toolbarMiddle.addEventListener("mouseleave", ()=>{mouseIsOverToolbar=false; toolbarRehider = setTimeout(function(){
+			toolbarMiddle.classList.add('toolbarHidden')
+		}, 3000);});
+
 }
 
 var now = Date.now || function() {
@@ -267,24 +341,50 @@ function throttle(func, wait, options) {
 
   return throttled;
 }
+var lastMousePosition = null;
+var toolbarRehider = null;
+var mouseIsOverToolbar = false;
 
 function isInsideToolbarThreshold(cursorY) {
   var threshold = 250;
-  var clientHeight = document.documentElement.clientHeight;
-  return cursorY > (clientHeight - threshold);
+  if (lastMousePosition===null)
+	  lastMousePosition = cursorY;
+  
+  return (cursorY > lastMousePosition)
+
+  /*var clientHeight = document.documentElement.clientHeight;
+  return cursorY > (clientHeight - threshold);*/
 }
 function manageToolbarVisibility(isActive) {
   var panelElement = document.getElementById('toolbarViewerMiddle');
   if (isActive) {
     panelElement.classList.remove('toolbarHidden')
     panelElement.classList.remove('toolbarInitialHidden')
+	if (toolbarRehider)
+		clearTimeout(toolbarRehider)
+	if (!mouseIsOverToolbar)
+	{
+		toolbarRehider = setTimeout(function(){
+			//console.log("OK, re-hiding toolbar")
+			panelElement.classList.add('toolbarHidden')
+		}, 3000);
+	}
   } else {
     panelElement.classList.add('toolbarHidden')
   }
 }
 function mouseMoveEventHandler(e)
 {
-	manageToolbarVisibility(isInsideToolbarThreshold(e.clientY));
+	//console.dir(e)
+	let absMovementX = Math.abs(e.movementX);
+	let absMovementY = Math.abs(e.movementY);
+
+	let showToolbar = (e.movementY > 0 && absMovementX < (absMovementY/3))
+	if (mouseIsOverToolbar)
+		showToolbar = true;
+
+	if (showToolbar)
+		manageToolbarVisibility(showToolbar);
 }
 
 if (
@@ -296,5 +396,4 @@ if (
   document.addEventListener("DOMContentLoaded", webViewerLoad, true);
 }
 
-document.addEventListener("mousemove", throttle(mouseMoveEventHandler, 300));
 localStorage.removeItem("pdfjs.history");

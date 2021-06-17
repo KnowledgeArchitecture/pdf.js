@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="31px" height="38px" viewBox="0 0 31 38" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Icons / Documents - Word</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icons-/-Documents---Word" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-26" transform="translate(2.000000, 2.000000)" stroke="#4A90E2" stroke-width="2">
+            <path d="M4.07256748,0 L18.0898438,0 L18.0898438,0 L26.55793,7.94986962 C26.5920015,7.98185611 26.6113281,8.02650885 26.6113281,8.07324219 L26.6113281,8.07324219 L26.6113281,8.07324219 L26.6113281,30 C26.6113281,32.209139 24.8204671,34 22.6113281,34 L4.54005369,34 C2.35894655,34 0.579910606,32.252664 0.540700116,30.0719093 L0.0732139029,4.07190933 C0.0334994748,1.86312734 1.79187616,0.0403608493 4.00065815,0.000646421255 C4.02462551,0.000215482458 4.04859625,8.92581863e-16 4.07256748,0 Z" id="Rectangle"></path>
+        </g>
+        <g id="Group-27" transform="translate(9.000000, 19.000000)" stroke="#4A90E2" stroke-linecap="square" stroke-width="2">
+            <line x1="0.5" y1="0.5" x2="3" y2="9" id="Line-17"></line>
+            <line x1="7" y1="1" x2="4" y2="9" id="Line-17"></line>
+            <line x1="7.25" y1="1.25" x2="10" y2="9" id="Line-17"></line>
+            <line x1="13" y1="1" x2="11" y2="9" id="Line-17"></line>
+        </g>
+    </g>
+</svg>

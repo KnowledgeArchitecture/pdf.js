@@ -473,7 +473,22 @@ class BaseViewer {
         this._firstPageCapability.resolve(firstPdfPage);
 
         const scale = this.currentScale;
-        const viewport = firstPdfPage.getViewport({ scale: scale * CSS_UNITS });
+		
+		// KA addition to force 900px wide as the default
+		var viewportScale = scale * CSS_UNITS;
+		if (scale===1)
+		{
+			viewportScale = 900 / firstPdfPage._pageInfo.view[2];
+		}
+
+        const viewport = firstPdfPage.getViewport({ scale: viewportScale });
+		//console.log("CSS_UNITS: " + CSS_UNITS);
+		//console.log("Scale: " + scale);
+		//console.log("scale * CSS_UNITS: " + scale * CSS_UNITS);
+		//console.log("ka viewportScale (900 / " + firstPdfPage._pageInfo.view[2] + "): " + viewportScale);
+		//console.dir(viewport);
+		//console.dir(firstPdfPage);
+		
         const textLayerFactory =
           this.textLayerMode !== TextLayerMode.DISABLE ? this : null;
 
@@ -495,6 +510,7 @@ class BaseViewer {
             useOnlyCssZoom: this.useOnlyCssZoom,
             maxCanvasPixels: this.maxCanvasPixels,
             l10n: this.l10n,
+			kaScaleFactor:viewportScale
           });
           this._pages.push(pageView);
         }

@@ -489,8 +489,8 @@ const PDFViewerApplication = {
     }
     let newScale = this.pdfViewer.currentScale;
     do {
-      newScale = (newScale * DEFAULT_SCALE_DELTA).toFixed(2);
-      newScale = Math.ceil(newScale * 10) / 10;
+      newScale = (newScale +0.25).toFixed(3);
+      newScale = Math.ceil(newScale * 100) / 100;
       newScale = Math.min(MAX_SCALE, newScale);
     } while (--ticks > 0 && newScale < MAX_SCALE);
     this.pdfViewer.currentScaleValue = newScale;
@@ -502,8 +502,8 @@ const PDFViewerApplication = {
     }
     let newScale = this.pdfViewer.currentScale;
     do {
-      newScale = (newScale / DEFAULT_SCALE_DELTA).toFixed(2);
-      newScale = Math.floor(newScale * 10) / 10;
+      newScale = (newScale -0.25).toFixed(3);
+      newScale = Math.floor(newScale * 100) / 100;
       newScale = Math.max(MIN_SCALE, newScale);
     } while (--ticks > 0 && newScale > MIN_SCALE);
     this.pdfViewer.currentScaleValue = newScale;
@@ -827,6 +827,8 @@ const PDFViewerApplication = {
     // on the reference fragment as ultimate fallback if needed.
     const filename =
       this.contentDispositionFilename || getPDFFileNameFromURL(this.url);
+	  
+	 console.log(filename)
     const downloadManager = this.downloadManager;
     downloadManager.onerror = err => {
       // This error won't really be helpful because it's likely the
@@ -1609,6 +1611,8 @@ const PDFViewerApplication = {
     eventBus._on("presentationmode", webViewerPresentationMode);
     eventBus._on("print", webViewerPrint);
     eventBus._on("download", webViewerDownload);
+    eventBus._on("viewlibray", webViewerViewLibrary);
+    eventBus._on("docdetails", webViewerDocDetails);
     eventBus._on("firstpage", webViewerFirstPage);
     eventBus._on("lastpage", webViewerLastPage);
     eventBus._on("nextpage", webViewerNextPage);
@@ -1629,6 +1633,7 @@ const PDFViewerApplication = {
     eventBus._on("findfromurlhash", webViewerFindFromUrlHash);
     eventBus._on("updatefindmatchescount", webViewerUpdateFindMatchesCount);
     eventBus._on("updatefindcontrolstate", webViewerUpdateFindControlState);
+    eventBus._on("copylink", webViewerCopyLink);
     if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {
       eventBus._on("fileinputchange", webViewerFileInputChange);
       eventBus._on("openfile", webViewerOpenFile);
@@ -1683,6 +1688,8 @@ const PDFViewerApplication = {
     eventBus._off("presentationmode", webViewerPresentationMode);
     eventBus._off("print", webViewerPrint);
     eventBus._off("download", webViewerDownload);
+    eventBus._off("viewlibray", webViewerViewLibrary);
+    eventBus._off("docdetails", webViewerDocDetails);
     eventBus._off("firstpage", webViewerFirstPage);
     eventBus._off("lastpage", webViewerLastPage);
     eventBus._off("nextpage", webViewerNextPage);
@@ -1703,6 +1710,7 @@ const PDFViewerApplication = {
     eventBus._off("findfromurlhash", webViewerFindFromUrlHash);
     eventBus._off("updatefindmatchescount", webViewerUpdateFindMatchesCount);
     eventBus._off("updatefindcontrolstate", webViewerUpdateFindControlState);
+    eventBus._off("copylink", webViewerCopyLink);
     if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {
       eventBus._off("fileinputchange", webViewerFileInputChange);
       eventBus._off("openfile", webViewerOpenFile);
@@ -1736,6 +1744,9 @@ const PDFViewerApplication = {
     panelElement.classList.remove('toolbarHidden')
 	setTimeout(function(){
     panelElement.classList.add('toolbarInitialHidden')},300);
+	
+	var spinnerElement = document.getElementById('ka_spinner');
+	spinnerElement.classList.add("hidden");
   }
 
 };
@@ -2204,8 +2215,31 @@ function webViewerPresentationMode() {
 function webViewerPrint() {
   window.print();
 }
+function webViewerViewLibrary() {
+  window.top.postMessage(JSON.stringify({error: false,message: 'kaPdfViewerViewLibraryMessage'}),'*');
+}
+function webViewerDocDetails() {
+  window.top.postMessage(JSON.stringify({error: false,message: 'kaPdfViewerDocDetailsMessage'}),'*');
+}
 function webViewerDownload() {
-  PDFViewerApplication.download();
+  var docid = document.getElementById('download').getAttribute('docid')
+  console.log(docid)
+  const a = document.createElement("a");
+  if (!a.click) {
+    throw new Error('DownloadManager: "a.click()" is not supported.');
+  }
+  a.href = "/api/document/"+docid+"/download";
+  a.target = "_parent";
+  // Use a.download if available. This increases the likelihood that
+  // the file is downloaded instead of opened by another PDF plugin.
+  /*if ("download" in a) {
+    a.download = filename;
+  }*/
+  // <a> must be in the document for IE and recent Firefox versions,
+  // otherwise .click() is ignored.
+  (document.body || document.documentElement).appendChild(a);
+  a.click();
+  a.remove();
 }
 function webViewerFirstPage() {
   if (PDFViewerApplication.pdfDocument) {
@@ -2277,7 +2311,7 @@ function webViewerFind(evt) {
     phraseSearch: evt.phraseSearch,
     caseSensitive: evt.caseSensitive,
     entireWord: evt.entireWord,
-    highlightAll: evt.highlightAll,
+    highlightAll: true,
     findPrevious: evt.findPrevious,
   });
 }
@@ -2299,6 +2333,21 @@ function webViewerUpdateFindMatchesCount({ matchesCount }) {
   } else {
     PDFViewerApplication.findBar.updateResultsCount(matchesCount);
   }
+}
+
+function webViewerCopyLink() {
+	var input = document.getElementById("clipboardHolder")
+	console.log(window.parent.document.location.href);
+	
+	input.value=window.parent.document.location.href;
+	console.log(input.value)
+	input.select();
+    input.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+
+	document.getElementById("linkCopiedAlert").classList.remove("transparent");
+	setTimeout(()=>{document.getElementById("linkCopiedAlert").classList.add("transparent")},3000);
+	console.log("Copy link!")
 }
 
 function webViewerUpdateFindControlState({ state, previous, matchesCount }) {
@@ -2603,6 +2652,7 @@ function webViewerKeyDown(evt) {
       case 27: // esc key
         if (PDFViewerApplication.secondaryToolbar.isOpen) {
           PDFViewerApplication.secondaryToolbar.close();
+		  console.log("close toolbar")
           handled = true;
         }
         if (
@@ -2610,8 +2660,15 @@ function webViewerKeyDown(evt) {
           PDFViewerApplication.findBar.opened
         ) {
           PDFViewerApplication.findBar.close();
+		  console.log("close findbar")
           handled = true;
         }
+		if (!handled && !PDFViewerApplication.findBar.opened)
+		{
+			console.log("ka close")
+			window.top.postMessage(JSON.stringify({error: false,message: 'kaPdfViewerCloseMessage'}),'*');
+		}
+		
         break;
       case 40: // down arrow
       case 34: // pg down

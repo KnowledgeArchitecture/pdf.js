@@ -38,6 +38,7 @@ class PDFFindBar {
     this.findResultsCount = options.findResultsCount || null;
     this.findPreviousButton = options.findPreviousButton || null;
     this.findNextButton = options.findNextButton || null;
+    this.closeButton = options.closeButton || null;
     this.eventBus = eventBus || getGlobalEventBus();
     this.l10n = l10n;
 
@@ -59,6 +60,7 @@ class PDFFindBar {
           break;
         case 27: // Escape
           this.close();
+		  e.stopPropagation()
           break;
       }
     });
@@ -70,6 +72,10 @@ class PDFFindBar {
     this.findNextButton.addEventListener("click", () => {
       this.dispatchEvent("again", false);
     });
+	
+	this.closeButton.addEventListener("click", () => {
+      this.close();
+	});
 
     /*this.highlightAll.addEventListener("click", () => {
       this.dispatchEvent("highlightallchange");
@@ -108,6 +114,7 @@ class PDFFindBar {
     let findMsg = "";
     let status = "";
 
+	console.dir(state)
     switch (state) {
       case FindState.FOUND:
         break;
@@ -154,7 +161,7 @@ class PDFFindBar {
       return; // No UI control is provided.
     }
     const limit = MATCHES_COUNT_LIMIT;
-    let matchesCountMsg = "";
+    let matchesCountMsg = "0 of 0";
 
     if (total > 0) {
       if (total > limit) {
@@ -174,7 +181,7 @@ class PDFFindBar {
             {
               limit,
             },
-            "More than {{limit}} match" + (limit !== 1 ? "es" : "")
+            "> {{limit}} match" + (limit !== 1 ? "es" : "")
           );
         }
       } else {
@@ -203,7 +210,8 @@ class PDFFindBar {
     }
     Promise.resolve(matchesCountMsg).then(msg => {
       this.findResultsCount.textContent = msg;
-      this.findResultsCount.classList.toggle("hidden", !total);
+	  
+      this.findResultsCount.classList.toggle("hidden", !this.findField.value);
       // Since `updateResultsCount` may be called from `PDFFindController`,
       // ensure that the width of the findbar is always updated correctly.
       this._adjustWidth();

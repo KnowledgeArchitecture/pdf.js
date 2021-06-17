@@ -35,8 +35,8 @@
 .textLayer .highlight {
   margin: -1px;
   padding: 1px;
-  background-color: rgba(180, 0, 170, 1);
-  border-radius: 4px;
+  background-color: #005DCA;
+  border-radius: 2px;
 }
 
 .textLayer .highlight.begin {
@@ -52,7 +52,7 @@
 }
 
 .textLayer .highlight.selected {
-  background-color: rgba(0, 100, 0, 1);
+  background-color: #5FB600;
 }
 
 .textLayer ::selection {

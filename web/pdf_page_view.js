@@ -59,6 +59,7 @@ import { viewerCompatibilityParams } from "./viewer_compatibility.js";
  *   total pixels, i.e. width * height. Use -1 for no limit. The default value
  *   is 4096 * 4096 (16 mega-pixels).
  * @property {IL10n} l10n - Localization service.
+ * @property {number} kaScaleFactor - KA scale factor to enforce width
  */
 
 const MAX_CANVAS_PIXELS = viewerCompatibilityParams.maxCanvasPixels || 16777216;
@@ -110,10 +111,12 @@ class PDFPageView {
     this.textLayer = null;
     this.zoomLayer = null;
 
+	this.kaScaleFactor = options.kaScaleFactor || CSS_UNITS;
     const div = document.createElement("div");
     div.className = "page";
     div.style.width = Math.floor(this.viewport.width) + "px";
     div.style.height = Math.floor(this.viewport.height) + "px";
+	console.log("Setting page view div width to " + Math.floor(this.viewport.width));
     div.setAttribute("data-page-number", this.id);
     this.div = div;
 
@@ -125,10 +128,12 @@ class PDFPageView {
     this.pdfPageRotate = pdfPage.rotate;
 
     const totalRotation = (this.rotation + this.pdfPageRotate) % 360;
+	
     this.viewport = pdfPage.getViewport({
-      scale: this.scale * CSS_UNITS,
+      scale: this.scale * this.kaScaleFactor,
       rotation: totalRotation,
     });
+	//console.log("create viewport setPdfPage");
     this.stats = pdfPage.stats;
     this.reset();
   }
@@ -167,6 +172,7 @@ class PDFPageView {
 
     const div = this.div;
     div.style.width = Math.floor(this.viewport.width) + "px";
+	console.log("(reset) Setting page view div width to " + Math.floor(this.viewport.width));
     div.style.height = Math.floor(this.viewport.height) + "px";
 
     const childNodes = div.childNodes;
@@ -221,8 +227,9 @@ class PDFPageView {
     }
 
     const totalRotation = (this.rotation + this.pdfPageRotate) % 360;
+	//console.log("Create viewport update");
     this.viewport = this.viewport.clone({
-      scale: this.scale * CSS_UNITS,
+      scale: this.scale * this.kaScaleFactor,
       rotation: totalRotation,
     });
 
@@ -597,6 +604,8 @@ class PDFPageView {
 
     if (this.useOnlyCssZoom) {
       const actualSizeViewport = viewport.clone({ scale: CSS_UNITS });
+	  
+	  //console.log("use css zoom scale");
       // Use a scale that makes the canvas have the originally intended size
       // of the page.
       outputScale.sx *= actualSizeViewport.width / viewport.width;

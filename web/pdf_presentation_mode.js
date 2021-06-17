@@ -237,6 +237,7 @@ class PDFPresentationMode {
     setTimeout(() => {
       this.pdfViewer.currentPageNumber = this.args.page;
       this.pdfViewer.currentScaleValue = "page-fit";
+	  this.addCenteringMargin();
     }, 0);
 
     this._addWindowListeners();
@@ -267,6 +268,7 @@ class PDFPresentationMode {
       this.pdfViewer.currentScaleValue = this.args.previousScale;
       this.pdfViewer.currentPageNumber = page;
       this.args = null;
+      this.removeCenteringMargin();
     }, 0);
 
     this._removeWindowListeners();
@@ -292,14 +294,18 @@ class PDFPresentationMode {
         evt.target.href && evt.target.classList.contains("internalLink");
       if (!isInternalLink) {
         // Unless an internal link was clicked, advance one page.
-        evt.preventDefault();
-
-        if (evt.shiftKey) {
-          this._goToPreviousPage();
-        } else {
-          this._goToNextPage();
-        }
+        
       }
+    }
+  }
+  
+  _onClick(evt) {
+	evt.preventDefault();
+	
+    if (evt.shiftKey) {
+        this._goToPreviousPage();
+    } else {
+        this._goToNextPage();
     }
   }
 
@@ -309,6 +315,35 @@ class PDFPresentationMode {
   _contextMenu() {
     this.contextMenuOpen = true;
   }
+  
+  addCenteringMargin(){
+	var pages = document.getElementsByClassName("page");
+	var windowHeight = window.innerHeight;
+	var firstPageHeight = pages[0].clientHeight;
+	var marginFactor = (windowHeight - firstPageHeight) / 2;
+	var firstPageCssHeight = pages[0].style.height;
+	console.log("firstPageCssHeight " + firstPageCssHeight);
+	console.log(windowHeight + " - " + firstPageHeight + " / 2 = marginFactor: " + marginFactor);
+	console.dir(pages)
+	for (var i = 0; i<pages.length; i++)
+	{
+		pages[i].style.paddingTop = marginFactor + "px";
+	}
+	//pages.forEach(page=>{
+	//	page.style.paddingTop = marginFactor;
+	//});
+  }
+  
+  removeCenteringMargin(){
+	var pages = document.getElementsByClassName("page");
+	
+	for (var i = 0; i<pages.length; i++)
+	{
+		pages[i].style.removeProperty("padding-top");
+	}
+
+  }
+
 
   /**
    * @private
@@ -416,6 +451,7 @@ class PDFPresentationMode {
   _addWindowListeners() {
     this.showControlsBind = this._showControls.bind(this);
     this.mouseDownBind = this._mouseDown.bind(this);
+	this.onClickBind = this._onClick.bind(this);
     this.mouseWheelBind = this._mouseWheel.bind(this);
     this.resetMouseScrollStateBind = this._resetMouseScrollState.bind(this);
     this.contextMenuBind = this._contextMenu.bind(this);
@@ -423,6 +459,7 @@ class PDFPresentationMode {
 
     window.addEventListener("mousemove", this.showControlsBind);
     window.addEventListener("mousedown", this.mouseDownBind);
+    window.addEventListener("click", this.onClickBind);
     window.addEventListener("wheel", this.mouseWheelBind, { passive: false });
     window.addEventListener("keydown", this.resetMouseScrollStateBind);
     window.addEventListener("contextmenu", this.contextMenuBind);
@@ -437,6 +474,7 @@ class PDFPresentationMode {
   _removeWindowListeners() {
     window.removeEventListener("mousemove", this.showControlsBind);
     window.removeEventListener("mousedown", this.mouseDownBind);
+    window.removeEventListener("click", this.onClickBind);
     window.removeEventListener("wheel", this.mouseWheelBind, {
       passive: false,
     });

@@ -39,7 +39,11 @@ See https://github.com/adobe-type-tools/cmap-resources
 <!--#include viewer-snippet-chrome-extension.html-->
 <!--#endif-->
 
-    <link rel="stylesheet" href="viewer.css">
+	<link rel="stylesheet" href="/css/s6-theme.css?v=3BOjJp4GOK4ehy84zqlMB98hRLH21511mLOVO92j6DU" type="text/css">
+	<link rel="stylesheet" href="/css/s6-site.css?v=p4oPdqmBCYrdQnV8IdP2eY449BZ3DYtdXsU8li_wQcY" type="text/css">
+	<link rel="stylesheet" href="/api/theme/css" type="text/css">
+	<link rel="stylesheet" href="https://use.typekit.net/lbk0kfk.css">    
+	<link rel="stylesheet" href="viewer.css">
 <!--#if !PRODUCTION-->
     <link rel="resource" type="application/l10n" href="locale/locale.properties">
 <!--#endif-->
@@ -64,207 +68,96 @@ See https://github.com/adobe-type-tools/cmap-resources
   <body tabindex="1" class="loadingInProgress">
     <div id="outerContainer">
 
-      <div id="sidebarContainer">
-        <div id="toolbarSidebar">
-          <div class="splitToolbarButton toggled">
-            <button id="viewThumbnail" class="toolbarButton toggled" title="Show Thumbnails" tabindex="2" data-l10n-id="thumbs">
-               <span data-l10n-id="thumbs_label">Thumbnails</span>
-            </button>
-            <button id="viewOutline" class="toolbarButton" title="Show Document Outline (double-click to expand/collapse all items)" tabindex="3" data-l10n-id="document_outline">
-               <span data-l10n-id="document_outline_label">Document Outline</span>
-            </button>
-            <button id="viewAttachments" class="toolbarButton" title="Show Attachments" tabindex="4" data-l10n-id="attachments">
-               <span data-l10n-id="attachments_label">Attachments</span>
-            </button>
-          </div>
-        </div>
-        <div id="sidebarContent">
-          <div id="thumbnailView">
-          </div>
-          <div id="outlineView" class="hidden">
-          </div>
-          <div id="attachmentsView" class="hidden">
-          </div>
-        </div>
-        <div id="sidebarResizer" class="hidden"></div>
-      </div>  <!-- sidebarContainer -->
-
       <div id="mainContainer">
         <div class="findbar hidden doorHanger" id="findbar">
-          <div id="findbarInputContainer">
-            <input id="findInput" class="toolbarField" title="Find" placeholder="Find in document…" tabindex="91" data-l10n-id="find_input">
-            <div class="splitToolbarButton">
+			<div id="fakeSearchInput">
+			<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Icons-/-Search-Intranet-Icon-Small" stroke="none" stroke-width="3" fill="none" fill-rule="evenodd">
+        <g id="Search-Intranet-Icon" transform="translate(2.000000, 2.000000)" style="stroke: #4a90e2;stroke: --var(--ui-accent-color);">
+            <circle id="Oval" cx="8.33333333" cy="8.33333333" r="8.33333333"></circle>
+            <line x1="15.1666667" y1="14" x2="21.6666667" y2="19.6666667" id="Line-10" stroke-linecap="square"></line>
+        </g>
+    </g>
+</svg>
+			<div id="findInputBox">
+            <input id="findInput" type="search" data-lpignore="true" title="Find" placeholder="Search Document" tabindex="91" data-l10n-id="find_input">
+			</div>
+			            <div id="findResultsCount" class="hidden"></div>
+</div>
               <button id="findPrevious" class="toolbarButton findPrevious" title="Find the previous occurrence of the phrase" tabindex="92" data-l10n-id="find_previous">
+			  <svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Icons-/-Page-Up-Thin" stroke="none" stroke-width=".5" fill="none" fill-rule="evenodd">
+        <circle id="Oval" stroke="#555555" cx="11" cy="11" r="10"></circle>
+        <g id="Group" transform="translate(11.000000, 11.500000) rotate(180.000000) translate(-11.000000, -11.500000) translate(6.000000, 9.000000)" stroke="#555555" stroke-linecap="square">
+            <line x1="0" y1="0.125" x2="4.87179487" y2="4.875" id="Line"></line>
+            <line x1="5.12820513" y1="0.125" x2="10" y2="4.875" id="Line" transform="translate(7.564103, 2.500000) scale(-1, 1) translate(-7.564103, -2.500000) "></line>
+        </g>
+    </g>
+</svg>
                 <span data-l10n-id="find_previous_label">Previous</span>
               </button>
-              <div class="splitToolbarButtonSeparator"></div>
               <button id="findNext" class="toolbarButton findNext" title="Find the next occurrence of the phrase" tabindex="93" data-l10n-id="find_next">
+			  <svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Icons-/-Page-Down-Thin" stroke="none" stroke-width=".5" fill="none" fill-rule="evenodd">
+        <circle id="Oval" stroke="#555555" cx="11" cy="11" r="10"></circle>
+        <g id="Group" transform="translate(6.000000, 9.000000)" stroke="#555555" stroke-linecap="square">
+            <line x1="0" y1="0.125" x2="4.87179487" y2="4.875" id="Line"></line>
+            <line x1="5.12820513" y1="0.125" x2="10" y2="4.875" id="Line" transform="translate(7.564103, 2.500000) scale(-1, 1) translate(-7.564103, -2.500000) "></line>
+        </g>
+    </g>
+</svg>
                 <span data-l10n-id="find_next_label">Next</span>
               </button>
-            </div>
-          </div>
-
-          <div id="findbarOptionsOneContainer">
-            <input type="checkbox" id="findHighlightAll" class="toolbarField" tabindex="94">
-            <label for="findHighlightAll" class="toolbarLabel" data-l10n-id="find_highlight">Highlight all</label>
-            <input type="checkbox" id="findMatchCase" class="toolbarField" tabindex="95">
-            <label for="findMatchCase" class="toolbarLabel" data-l10n-id="find_match_case_label">Match case</label>
-          </div>
-          <div id="findbarOptionsTwoContainer">
-            <input type="checkbox" id="findEntireWord" class="toolbarField" tabindex="96">
-            <label for="findEntireWord" class="toolbarLabel" data-l10n-id="find_entire_word_label">Whole words</label>
-            <span id="findResultsCount" class="toolbarLabel hidden"></span>
-          </div>
-
+<img src="images/ka_closex.svg" width="9" height="9" id="searchBoxCloseButton" />
           <div id="findbarMessageContainer">
             <span id="findMsg" class="toolbarLabel"></span>
           </div>
         </div>  <!-- findbar -->
 
+		  <div id="linkCopiedAlert" class="transparent">
+			<input type="text" id="clipboardHolder" class="transparent" style="width:1px;height:1px;"/>
+			<span>Link copied to clipboard.</span>
+		  </div>
         <div id="secondaryToolbar" class="secondaryToolbar hidden doorHangerRight">
+		  <div id="secondaryToolbarMenuTriangle">&nbsp;</div>
           <div id="secondaryToolbarButtonContainer">
-            <button id="secondaryPresentationMode" class="secondaryToolbarButton presentationMode visibleLargeView" title="Switch to Presentation Mode" tabindex="51" data-l10n-id="presentation_mode">
-              <span data-l10n-id="presentation_mode_label">Presentation Mode</span>
-            </button>
-
-            <button id="secondaryOpenFile" class="secondaryToolbarButton openFile visibleLargeView" title="Open File" tabindex="52" data-l10n-id="open_file">
+            <button id="secondaryOpenFile" class="secondaryToolbarButton openFile" title="Open File" tabindex="52" data-l10n-id="open_file" style="display:none;">
               <span data-l10n-id="open_file_label">Open</span>
             </button>
 
-            <button id="secondaryPrint" class="secondaryToolbarButton print visibleMediumView" title="Print" tabindex="53" data-l10n-id="print">
-              <span data-l10n-id="print_label">Print</span>
-            </button>
-
-            <button id="secondaryDownload" class="secondaryToolbarButton download visibleMediumView" title="Download" tabindex="54" data-l10n-id="download">
+            <button id="secondaryDownload" class="secondaryToolbarButton download" title="Download" tabindex="53" data-l10n-id="download">
               <span data-l10n-id="download_label">Download</span>
             </button>
 
-            <a href="#" id="secondaryViewBookmark" class="secondaryToolbarButton bookmark visibleSmallView" title="Current view (copy or open in new window)" tabindex="55" data-l10n-id="bookmark">
-              <span data-l10n-id="bookmark_label">Current View</span>
-            </a>
-
-            <div class="horizontalToolbarSeparator visibleLargeView"></div>
-
-            <button id="firstPage" class="secondaryToolbarButton firstPage" title="Go to First Page" tabindex="56" data-l10n-id="first_page">
-              <span data-l10n-id="first_page_label">Go to First Page</span>
-            </button>
-            <button id="lastPage" class="secondaryToolbarButton lastPage" title="Go to Last Page" tabindex="57" data-l10n-id="last_page">
-              <span data-l10n-id="last_page_label">Go to Last Page</span>
+            <button id="secondaryPrint" class="secondaryToolbarButton print" title="Print" tabindex="53" data-l10n-id="print">
+              <span data-l10n-id="print_label">Print</span>
             </button>
 
-            <div class="horizontalToolbarSeparator"></div>
-
-            <button id="pageRotateCw" class="secondaryToolbarButton rotateCw" title="Rotate Clockwise" tabindex="58" data-l10n-id="page_rotate_cw">
-              <span data-l10n-id="page_rotate_cw_label">Rotate Clockwise</span>
-            </button>
-            <button id="pageRotateCcw" class="secondaryToolbarButton rotateCcw" title="Rotate Counterclockwise" tabindex="59" data-l10n-id="page_rotate_ccw">
-              <span data-l10n-id="page_rotate_ccw_label">Rotate Counterclockwise</span>
+            <button id="pageRotateCw" class="secondaryToolbarButton rotateCw" title="Rotate" tabindex="58" >
+              <span >Rotate</span>
             </button>
 
-            <div class="horizontalToolbarSeparator"></div>
-
-            <button id="cursorSelectTool" class="secondaryToolbarButton selectTool toggled" title="Enable Text Selection Tool" tabindex="60" data-l10n-id="cursor_text_select_tool">
-              <span data-l10n-id="cursor_text_select_tool_label">Text Selection Tool</span>
-            </button>
-            <button id="cursorHandTool" class="secondaryToolbarButton handTool" title="Enable Hand Tool" tabindex="61" data-l10n-id="cursor_hand_tool">
-              <span data-l10n-id="cursor_hand_tool_label">Hand Tool</span>
+            <button id="secondaryCopyLink" class="secondaryToolbarButton copyLink" title="Copy Link" tabindex="62" data-l10n-id="copy_link">
+              <span >Copy Link</span>
             </button>
 
-            <div class="horizontalToolbarSeparator"></div>
-
-            <button id="scrollVertical" class="secondaryToolbarButton scrollModeButtons scrollVertical toggled" title="Use Vertical Scrolling" tabindex="62" data-l10n-id="scroll_vertical">
-              <span data-l10n-id="scroll_vertical_label">Vertical Scrolling</span>
+            <button id="secondaryViewLibrary" class="secondaryToolbarButton viewLibrary" title="View Source Library" tabindex="62" data-l10n-id="view_library">
+              <span >View Source Library</span>
             </button>
-            <button id="scrollHorizontal" class="secondaryToolbarButton scrollModeButtons scrollHorizontal" title="Use Horizontal Scrolling" tabindex="63" data-l10n-id="scroll_horizontal">
-              <span data-l10n-id="scroll_horizontal_label">Horizontal Scrolling</span>
+            <button id="secondaryDocDetails" class="secondaryToolbarButton docDetails" title="Document Details" tabindex="62" data-l10n-id="doc_details">
+              <span >Document Details</span>
             </button>
-            <button id="scrollWrapped" class="secondaryToolbarButton scrollModeButtons scrollWrapped" title="Use Wrapped Scrolling" tabindex="64" data-l10n-id="scroll_wrapped">
-              <span data-l10n-id="scroll_wrapped_label">Wrapped Scrolling</span>
-            </button>
-
-            <div class="horizontalToolbarSeparator scrollModeButtons"></div>
-
-            <button id="spreadNone" class="secondaryToolbarButton spreadModeButtons spreadNone toggled" title="Do not join page spreads" tabindex="65" data-l10n-id="spread_none">
-              <span data-l10n-id="spread_none_label">No Spreads</span>
-            </button>
-            <button id="spreadOdd" class="secondaryToolbarButton spreadModeButtons spreadOdd" title="Join page spreads starting with odd-numbered pages" tabindex="66" data-l10n-id="spread_odd">
-              <span data-l10n-id="spread_odd_label">Odd Spreads</span>
-            </button>
-            <button id="spreadEven" class="secondaryToolbarButton spreadModeButtons spreadEven" title="Join page spreads starting with even-numbered pages" tabindex="67" data-l10n-id="spread_even">
-              <span data-l10n-id="spread_even_label">Even Spreads</span>
-            </button>
-
-            <div class="horizontalToolbarSeparator spreadModeButtons"></div>
-
-            <button id="documentProperties" class="secondaryToolbarButton documentProperties" title="Document Properties…" tabindex="68" data-l10n-id="document_properties">
+            <button id="documentProperties" class="secondaryToolbarButton documentProperties" title="Document Properties…" tabindex="68" data-l10n-id="document_properties" style="display:none;">
               <span data-l10n-id="document_properties_label">Document Properties…</span>
             </button>
           </div>
         </div>  <!-- secondaryToolbar -->
-
-        <div class="toolbar">
-          <div id="toolbarContainer">
-            <div id="toolbarViewer">
-              <div id="toolbarViewerLeft">
-                <button id="sidebarToggle" class="toolbarButton" title="Toggle Sidebar" tabindex="11" data-l10n-id="toggle_sidebar">
-                  <span data-l10n-id="toggle_sidebar_label">Toggle Sidebar</span>
-                </button>
-                <div class="toolbarButtonSpacer"></div>
-                <button id="viewFind" class="toolbarButton" title="Find in Document" tabindex="12" data-l10n-id="findbar">
-                  <span data-l10n-id="findbar_label">Find</span>
-                </button>
-                <div class="splitToolbarButton hiddenSmallView">
-                  <button class="toolbarButton pageUp" title="Previous Page" id="previous" tabindex="13" data-l10n-id="previous">
-                    <span data-l10n-id="previous_label">Previous</span>
-                  </button>
-                  <div class="splitToolbarButtonSeparator"></div>
-                  <button class="toolbarButton pageDown" title="Next Page" id="next" tabindex="14" data-l10n-id="next">
-                    <span data-l10n-id="next_label">Next</span>
-                  </button>
-                </div>
-                <input type="number" id="pageNumber" class="toolbarField pageNumber" title="Page" value="1" size="4" min="1" tabindex="15" data-l10n-id="page">
-                <span id="numPages" class="toolbarLabel"></span>
-              </div>
-              <div id="toolbarViewerRight">
-                <button id="presentationMode" class="toolbarButton presentationMode hiddenLargeView" title="Switch to Presentation Mode" tabindex="31" data-l10n-id="presentation_mode">
-                  <span data-l10n-id="presentation_mode_label">Presentation Mode</span>
-                </button>
-
-                <button id="openFile" class="toolbarButton openFile hiddenLargeView" title="Open File" tabindex="32" data-l10n-id="open_file">
-                  <span data-l10n-id="open_file_label">Open</span>
-                </button>
-
-                <button id="print" class="toolbarButton print hiddenMediumView" title="Print" tabindex="33" data-l10n-id="print">
-                  <span data-l10n-id="print_label">Print</span>
-                </button>
-
-                <button id="download" class="toolbarButton download hiddenMediumView" title="Download" tabindex="34" data-l10n-id="download">
-                  <span data-l10n-id="download_label">Download</span>
-                </button>
-                <a href="#" id="viewBookmark" class="toolbarButton bookmark hiddenSmallView" title="Current view (copy or open in new window)" tabindex="35" data-l10n-id="bookmark">
-                  <span data-l10n-id="bookmark_label">Current View</span>
-                </a>
-
-                <div class="verticalToolbarSeparator hiddenSmallView"></div>
-
-                <button id="secondaryToolbarToggle" class="toolbarButton" title="Tools" tabindex="36" data-l10n-id="tools">
-                  <span data-l10n-id="tools_label">Tools</span>
-                </button>
-              </div>
-              <div id="toolbarViewerMiddle">
-                <div class="splitToolbarButton">
-                  <button id="zoomOut" class="toolbarButton zoomOut" title="Zoom Out" tabindex="21" data-l10n-id="zoom_out">
-                    <span data-l10n-id="zoom_out_label">Zoom Out</span>
-                  </button>
-                  <div class="splitToolbarButtonSeparator"></div>
-                  <button id="zoomIn" class="toolbarButton zoomIn" title="Zoom In" tabindex="22" data-l10n-id="zoom_in">
-                    <span data-l10n-id="zoom_in_label">Zoom In</span>
-                   </button>
-                </div>
-                <span id="scaleSelectContainer" class="dropdownToolbarButton">
+		<div id="bottomMouseOverArea">
+		              
+                <span id="scaleSelectContainer" class="dropdownToolbarButton" style="display:none;">
                   <select id="scaleSelect" title="Zoom" tabindex="23" data-l10n-id="zoom">
-                    <option id="pageAutoOption" title="" value="auto" selected="selected" data-l10n-id="page_scale_auto">Automatic Zoom</option>
-                    <option id="pageActualOption" title="" value="page-actual" data-l10n-id="page_scale_actual">Actual Size</option>
+                    <option id="pageAutoOption" title="" value="auto" data-l10n-id="page_scale_auto">Automatic Zoom</option>
+                    <option id="pageActualOption" title="" value="page-actual" selected="selected" data-l10n-id="page_scale_actual">Actual Size</option>
                     <option id="pageFitOption" title="" value="page-fit" data-l10n-id="page_scale_fit">Page Fit</option>
                     <option id="pageWidthOption" title="" value="page-width" data-l10n-id="page_scale_width">Page Width</option>
                     <option id="customScaleOption" title="" value="custom" disabled="disabled" hidden="true"></option>
@@ -278,9 +171,81 @@ See https://github.com/adobe-type-tools/cmap-resources
                     <option title="" value="4" data-l10n-id="page_scale_percent" data-l10n-args='{ "scale": 400 }'>400%</option>
                   </select>
                 </span>
+
+		</div>
+        <div class="toolbar">
+          <div id="toolbarContainer">
+            <div id="toolbarViewer">
+              <div id="toolbarViewerLeft">
+				<div id="currentFileIcon"></div>
+				<div id="currentFileName"></div>
+              </div>
+              <div id="toolbarViewerRight">
+                <button id="download" class="toolbarButton download hiddenMediumView" title="Download" tabindex="34" data-l10n-id="download" style="height: 26px;">
+				<svg height="26px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Icons / Download</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icons-/-Download" stroke="#232323" stroke-width="0.7" fill="none" stroke-linecap="square">
+        <g transform="translate(3.000000, 2.000000)" >
+            <g transform="translate(6.000000, 5.500000) rotate(270.000000) translate(-6.000000, -5.500000) translate(1.000000, 1.000000)">
+                <g id="Group" transform="translate(2.730769, 4.750000) rotate(450.000000) translate(-2.730769, -4.750000) translate(-1.269231, 2.750000)">
+                    <line x1="0" y1="0.0865384615" x2="3.65384615" y2="3.375"></line>
+                    <line x1="3.84615385" y1="0.0865384615" x2="7.5" y2="3.375" transform="translate(5.673077, 1.730769) scale(-1, 1) translate(-5.673077, -1.730769) "></line>
+                </g>
+                <line x1="2.5" y1="4.5" x2="9.5" y2="4.5"></line>
+            </g>
+            <line x1="-6.9388939e-17" y1="13.5" x2="12" y2="13.5" id="Line-5" transform="translate(6.000000, 13.500000) rotate(180.000000) translate(-6.000000, -13.500000) "></line>
+        </g>
+    </g>
+</svg>
+                  <span data-l10n-id="download_label">Download</span>
+                </button>
+
+                <button id="viewFind" class="toolbarButton" title="Search Document" tabindex="12" data-l10n-id="findbar" style="height: 22px;">
+				<img src="images/ka_search.svg" height="22">
+                  <span data-l10n-id="findbar_label">Find</span>
+                </button>
+				<button id="presentationMode" class="toolbarButton presentationMode hiddenLargeView" title="Switch to Presentation Mode" tabindex="31" data-l10n-id="presentation_mode" style="margin-left:2px;height:20px;">
+				<svg width="20px" height="20px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Icons-/-Fullscreen" stroke="none" stroke-width="1.0" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="Group-5" transform="translate(1.000000, 2.000000)" stroke="#232323">
+            <g id="Group-4">
+                <g id="Group-3" transform="translate(11.777460, 0.000000)">
+                    <line x1="1.42253967" y1="0.4" x2="7.02253967" y2="0.4" id="Line"></line>
+                    <line x1="4.22595" y1="3.50234094" x2="9.81912934" y2="3.69765906" id="Line" transform="translate(7.022540, 3.600000) rotate(88.000000) translate(-7.022540, -3.600000) "></line>
+                    <line x1="6.22253967" y1="1.2" x2="2.27373675e-14" y2="7.42253967" id="Line-3"></line>
+                </g>
+                <g id="Group-3" transform="translate(4.000000, 14.400000) rotate(180.000000) translate(-4.000000, -14.400000) translate(0.000000, 10.400000)">
+                    <line x1="1.42253967" y1="0.4" x2="7.02253967" y2="0.4" id="Line"></line>
+                    <line x1="4.22595" y1="3.50234094" x2="9.81912934" y2="3.69765906" id="Line" transform="translate(7.022540, 3.600000) rotate(88.000000) translate(-7.022540, -3.600000) "></line>
+                    <line x1="6.22253967" y1="1.2" x2="2.27373675e-14" y2="7.42253967" id="Line-3"></line>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
+                  <span data-l10n-id="presentation_mode_label">Presentation Mode</span>
+                </button>
+                <button style="display:none;" id="openFile" class="toolbarButton openFile hiddenLargeView" title="Open File" tabindex="32" data-l10n-id="open_file">
+                  <span data-l10n-id="open_file_label">Open</span>
+                </button>
+
+                <a href="#" id="viewBookmark" class="toolbarButton hidden bookmark" title="Current view (copy or open in new window)" tabindex="35" data-l10n-id="bookmark">
+                  <span data-l10n-id="bookmark_label">Current View</span>
+                </a>
+
+                <button id="secondaryToolbarToggle" class="toolbarButton" title="Tools" tabindex="36" data-l10n-id="tools">
+					<span data-l10n-id="tools_label">Tools</span>
+                </button>
+                <div class="verticalToolbarSeparator hiddenSmallView"></div>
+                <button id="closeViewer" class="toolbarButton" title="Close" tabindex="37" data-l10n-id="closeViewer" onClick="window.top.postMessage(JSON.stringify({error: false,message: 'kaPdfViewerCloseMessage'}),'*');" style="height: 16px;">
+					<img src="images/ka_closex.svg" width="18" height="18">
+                  <span data-l10n-id="closeViewer_label">Close</span>
+                </button>
               </div>
             </div>
-            <div id="loadingBar">
+            <div id="loadingBar" style="display:none;">
               <div class="progress">
                 <div class="glimmer">
                 </div>
@@ -299,8 +264,63 @@ See https://github.com/adobe-type-tools/cmap-resources
           <menuitem id="contextPageRotateCcw" label="Rotate Counter-Clockwise"
                     data-l10n-id="page_rotate_ccw"></menuitem>
         </menu>
+		<div id="ka_spinner" style="position: fixed;left: 50%;transform: translateX(-50%);top: 45%;" />
+			<img src="images/spinner-1s-200px.svg" width="75" height="75"/>
+		</div>
 
         <div id="viewerContainer" tabindex="0">
+		<div id="toolbarViewerMiddle" class="toolbarHidden">
+                  <button class="toolbarButton pageUp" title="Previous Page" id="previous" tabindex="13" data-l10n-id="previous">
+					<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Icons-/-Page-Up-Thin" stroke="none" stroke-width="1.5" fill="none" fill-rule="evenodd">
+        <circle id="Oval" stroke="#FFFFFF" cx="11" cy="11" r="10"></circle>
+        <g id="Group" transform="translate(11.000000, 11.500000) rotate(180.000000) translate(-11.000000, -11.500000) translate(6.000000, 9.000000)" stroke="#FFFFFF" stroke-linecap="square">
+            <line x1="0" y1="0.125" x2="4.87179487" y2="4.875" id="Line"></line>
+            <line x1="5.12820513" y1="0.125" x2="10" y2="4.875" id="Line" transform="translate(7.564103, 2.500000) scale(-1, 1) translate(-7.564103, -2.500000) "></line>
+        </g>
+    </g>
+</svg>
+                    <span data-l10n-id="previous_label">Previous</span>
+                  </button>
+				  <div id="pageIndicatorContainer">
+                <input type="number" id="pageNumber" class="toolbarField pageNumber" title="Page" value="1" size="4" min="1" tabindex="15" data-l10n-id="page">
+				<span id="numPagesSlash">/</span>
+                <span id="numPages" class="toolbarLabel"></span>
+				</div>
+                  <button class="toolbarButton pageDown" title="Next Page" id="next" tabindex="14" data-l10n-id="next">
+				  <svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Icons-/-Page-Down-Thin" stroke="none" stroke-width="1.5" fill="none" fill-rule="evenodd">
+        <circle id="Oval" stroke="#FFFFFF" cx="11" cy="11" r="10"></circle>
+        <g id="Group" transform="translate(6.000000, 9.000000)" stroke="#FFFFFF" stroke-linecap="square">
+            <line x1="0" y1="0.125" x2="4.87179487" y2="4.875" id="Line"></line>
+            <line x1="5.12820513" y1="0.125" x2="10" y2="4.875" id="Line" transform="translate(7.564103, 2.500000) scale(-1, 1) translate(-7.564103, -2.500000) "></line>
+        </g>
+    </g>
+</svg>
+                    <span data-l10n-id="next_label">Next</span>
+                  </button>
+                <div class="verticalToolbarSeparator hiddenSmallView"></div>
+                  
+                  <button id="zoomIn" class="toolbarButton zoomIn" title="Zoom In" tabindex="22" data-l10n-id="zoom_in">
+					<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Icons-/-Zoom-In" stroke="none" stroke-width="1.5" fill="none" fill-rule="evenodd">
+        <circle id="Oval" stroke="#FFFFFF" stroke-width="1.5" cx="11" cy="11" r="10"></circle>
+        <line x1="7" y1="11.5" x2="15" y2="11.5" id="Line-18" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="square"></line>
+        <line x1="7" y1="11.5" x2="15" y2="11.5" id="Line-18" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="square" transform="translate(11.000000, 11.500000) rotate(90.000000) translate(-11.000000, -11.500000) "></line>
+    </g>
+</svg>
+                    <span data-l10n-id="zoom_in_label">Zoom In</span>
+                   </button>
+<button id="zoomOut" class="toolbarButton zoomOut" title="Zoom Out" tabindex="21" data-l10n-id="zoom_out">
+				  <svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Icons-/-Zoom-Out" stroke="none" stroke-width="1.5" fill="none" fill-rule="evenodd">
+        <circle id="Oval" stroke="#FFFFFF" stroke-width="1.5" cx="11" cy="11" r="10"></circle>
+        <line x1="7" y1="11.5" x2="15" y2="11.5" id="Line-18" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="square"></line>
+    </g>
+</svg>
+                    <span data-l10n-id="zoom_out_label">Zoom Out</span>
+                  </button>
+              </div>
           <div id="viewer" class="pdfViewer"></div>
         </div>
 
